@@ -16,6 +16,9 @@ const clearComparison = () => {
 </script>
 
 <template>
+  <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+      Back
+    </button>
   <div class="max-w-5xl mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-6">Product Comparison</h1>
     <div v-if="comparisonList.length > 0">
@@ -26,7 +29,7 @@ const clearComparison = () => {
               <th class="px-4 py-2 border border-gray-300 dark:border-gray-700"></th>
               <th v-for="product in comparisonList" :key="product.id" class="px-4 py-2 border border-gray-300 dark:border-gray-700 text-left">
                 <div class="flex justify-between items-center">
-                  <button @click="removeFromComparison(product)" class="text-red-500 hover:underline">
+                  <button @click="removeFromComparison(product)" class="text-orange-500 hover:underline">
                     Remove
                   </button>
                 </div>
@@ -80,7 +83,7 @@ const clearComparison = () => {
         </table>
       </div>
       <div class="mt-6 text-right">
-        <button @click="clearComparison" class="bg-red-500 text-white py-2 px-4 rounded-md">
+        <button @click="clearComparison" class="bg-teal-500 text-white py-2 px-4 rounded-md">
           Clear Comparison List
         </button>
       </div>
