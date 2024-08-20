@@ -37,11 +37,14 @@ const togglePasswordVisibility = () => {
 </script>
 
 <template>
+  <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+      Back
+    </button>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
     <h1 class="text-2xl font-bold mb-6">Login</h1>
     <form @submit.prevent="handleLogin">
       <div class="mb-4">
-        <label class="block text-gray-700">Username</label>
+        <label class="block text-gray-700">Username:</label>
         <input
           v-model="username"
           type="text"
@@ -50,7 +53,7 @@ const togglePasswordVisibility = () => {
         />
       </div>
       <div class="mb-4">
-        <label class="block text-gray-700">Password</label>
+        <label class="block text-gray-700">Password:</label>
         <div class="relative">
           <input
             :type="passwordVisible ? 'text' : 'password'"
@@ -70,13 +73,13 @@ const togglePasswordVisibility = () => {
       <div class="text-center">
         <button
           type="submit"
-          class="bg-blue-500 text-white py-2 px-4 rounded-md w-full"
+          class="bg-orange-500 text-white py-2 px-4 rounded-md w-full"
           :disabled="loading"
         >
           {{ loading ? "Logging in..." : "Login" }}
         </button>
       </div>
-      <p v-if="errorMessage" class="mt-4 text-red-500">{{ errorMessage }}</p>
+      <p v-if="errorMessage" class="mt-4 font-semibold text-red-500">{{ errorMessage }}</p>
     </form>
   </div>
 </template>
