@@ -29,6 +29,8 @@ const linkClass = computed(
 
 const isAuthenticated = computed(() => !!store.jwt);
 
+const wishlistItemCount = computed(() => store.wishlist.length);  // added this to track wishlist item count
+
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
 };
