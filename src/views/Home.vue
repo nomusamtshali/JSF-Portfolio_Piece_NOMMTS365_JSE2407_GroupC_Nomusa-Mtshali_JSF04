@@ -62,7 +62,7 @@ const prevItem = () => {
   <div class="container mx-auto py-6">
     <!-- Wishlist Carousel -->
     <div v-if="wishlistItems.length > 0" class="mt-12 relative">
-      <h2 class="text-xl font-bold mb-2 text-center">My Wishlist</h2>
+      <h2 class="text-xl font-bold mb-2 text-center">♥ My Wishlist ♥</h2>
       <div class="flex items-center justify-center space-x-4">
         <!-- Left Arrow -->
         <button
@@ -138,7 +138,7 @@ const prevItem = () => {
       </div>
     </div>
 
-    <div class="container mx-auto py-6">
+    <div class="container mx-auto py-8">
       <!-- Filter and Sort Controls -->
       <div class="flex flex-wrap justify-center mb-8">
         <div>
