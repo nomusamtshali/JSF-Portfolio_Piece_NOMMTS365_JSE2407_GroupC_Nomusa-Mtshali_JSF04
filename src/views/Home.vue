@@ -45,7 +45,7 @@
 
   <template>
     <div class="container mx-auto py-6">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex flex-wrap justify-center mb-8 ">
         <div>
           <label for="category" class="mr-2 font-semibold">Filter by Category:</label>
           <select id="category" v-model="selectedCategory" @change="filterProducts" class="p-2 border rounded-md">
@@ -53,7 +53,7 @@
             <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
           </select>
         </div>
-        <div>
+        <div class="ml-12">
           <label for="sort" class="mr-2 font-semibold">Sort by Price:</label>
           <select id="sort" v-model="selectedSort" @change="sortProducts" class="p-2 border rounded-md">
             <option value="">Default</option>
@@ -67,5 +67,4 @@
       </div>
     </div>
   </template>
-  
-  
+
