@@ -20,6 +20,9 @@ function addToCart() {
 </script>
 
 <template>
+  <button @click="$router.go(-1)" class="bg-orange-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+      Back
+    </button>
   <div v-if="product">
     <img
       :src="product.image"
@@ -28,11 +31,11 @@ function addToCart() {
     />
     <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
     <p class="text-xl text-gray-600 mb-2">{{ product.category }}</p>
-    <p class="text-2xl font-bold text-green-500 mb-4">${{ product.price }}</p>
+    <p class="text-2xl font-bold text-teal-500 mb-4">${{ product.price }}</p>
     <p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
     <button
       @click="addToCart"
-      class="bg-blue-500 text-white py-2 px-4 rounded-md"
+      class="bg-teal-500 text-white py-2 px-4 rounded-md"
     >
       Add to Cart
     </button>
