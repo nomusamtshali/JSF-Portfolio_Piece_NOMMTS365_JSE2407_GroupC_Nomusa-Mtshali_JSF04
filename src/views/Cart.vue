@@ -30,6 +30,9 @@ const updateQuantity = (item) => {
 </script>
 
 <template>
+  <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+      Back
+    </button>
   <div class="max-w-3xl mx-auto mt-10">
     <h1 class="text-2xl font-bold mb-6">Shopping Cart</h1>
     <div v-if="cart.length > 0">
@@ -65,13 +68,13 @@ const updateQuantity = (item) => {
         <div>
           <button
             @click="clearCart"
-            class="bg-red-500 text-white py-2 px-4 rounded-md"
+            class="bg-orange-500 text-white py-2 px-4 rounded-md"
           >
             Clear Cart
           </button>
           <router-link
             to="/checkout"
-            class="ml-4 bg-green-500 text-white py-2 px-4 rounded-md"
+            class="ml-4 bg-teal-500 text-white py-2 px-4 rounded-md"
             >Checkout</router-link
           >
         </div>
