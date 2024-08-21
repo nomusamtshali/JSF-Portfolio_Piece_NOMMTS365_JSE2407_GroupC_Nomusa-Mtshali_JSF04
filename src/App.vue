@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from './store';
 import Navbar from './components/Navbar.vue';
+import Notification from './components/Notification.vue';
 
 const store = useStore();
 
@@ -35,6 +36,7 @@ watch(isDarkMode, (newValue) => {
   <div :class="themeClass">
     <Navbar :cartItemCount="cartItemCount" @toggleTheme="toggleTheme" :isDarkMode="isDarkMode" />
     <main class="container mx-auto py-6">
+      <Notification />
       <router-view />
     </main>
   </div>
