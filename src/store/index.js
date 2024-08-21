@@ -7,13 +7,22 @@ export const useStore = defineStore('main', {
     categories: [],
     cart: JSON.parse(localStorage.getItem('cart')) || [],
     comparisonList: JSON.parse(localStorage.getItem('comparisonList')) || [],
-    wishlist: JSON.parse(localStorage.getItem('wishlist')) || [], // Wishlist state
+    wishlist: JSON.parse(localStorage.getItem('wishlist')) || [],
     jwt: localStorage.getItem('jwt') || '', 
     user: {},
+    notificationMessage: '', // state for notifications
   }),
   actions: {
-    // Fetch Products
-    async fetchProducts() {
+    // set a notification message
+    setNotification(message) {
+      this.notificationMessage = message;
+      setTimeout(() => {
+        this.notificationMessage = '';
+      }, 3000); // clear notification after 3 seconds
+    },
+
+     // Fetch Products
+     async fetchProducts() {
       try {
         const response = await fetch(`https://fakestoreapi.com/products`);
         if (!response.ok) {
@@ -39,9 +48,9 @@ export const useStore = defineStore('main', {
         console.error('Error fetching categories:', error);
       }
     },
-
-    // User Login
-    async login(username, password) {
+    
+    // User login
+    async login(username, password, redirectTo) {
       try {
         const response = await fetch('https://fakestoreapi.com/auth/login', {
           method: 'POST',
@@ -57,13 +66,21 @@ export const useStore = defineStore('main', {
         this.jwt = data.token;
         this.user = jwtDecode(this.jwt); // decodes the JWT and sets the user state
         localStorage.setItem('jwt', this.jwt);
+
+        this.setNotification('You have logged in successfully.');
+
+        if (redirectTo) {
+          router.push(redirectTo);
+        } else {
+          router.push('/');
+        }
       } catch (error) {
         console.error('Error logging in:', error);
         throw new Error('Login failed');
       }
     },
 
-    // User Logout
+// User Logout 
     logout() {
       this.jwt = '';
       this.user = {};
@@ -74,6 +91,8 @@ export const useStore = defineStore('main', {
       localStorage.removeItem('cart');
       localStorage.removeItem('comparisonList');
       localStorage.removeItem('wishlist');
+
+      this.setNotification('You have logged out successfully.');
     },
 
     // Cart Management
@@ -85,52 +104,73 @@ export const useStore = defineStore('main', {
         this.cart.push({ product, quantity: 1 });
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
+
+      this.setNotification('Product added to cart.');
+
     },
 
-    removeFromCart(product) {
-      this.cart = this.cart.filter(item => item.product.id !== product.id);
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    },
+  removeFromCart(product) {
+    this.cart = this.cart.filter(item => item.product.id !== product.id);
+    localStorage.setItem('cart', JSON.stringify(this.cart));
 
-    clearCart() {
-      this.cart = [];
-      localStorage.setItem('cart', JSON.stringify(this.cart));
-    },
+    this.setNotification('Product removed from cart.');
+  },
 
-    // Comparison List Management
-    addToComparison(product) {
-      if (this.comparisonList.length < 5 && !this.comparisonList.some(item => item.id === product.id)) {
-        this.comparisonList.push(product);
-        localStorage.setItem('comparisonList', JSON.stringify(this.comparisonList));
-      }
-    },
+  clearCart() {
+    this.cart = [];
+    localStorage.setItem('cart', JSON.stringify(this.cart));
 
-    removeFromComparison(product) {
-      this.comparisonList = this.comparisonList.filter(item => item.id !== product.id);
+    this.setNotification('Cart cleared.');
+  },
+
+  // Comparison List Management
+ addToComparison(product) {
+    if (this.comparisonList.length < 5 && !this.comparisonList.some(item => item.id === product.id)) {
+      this.comparisonList.push(product);
       localStorage.setItem('comparisonList', JSON.stringify(this.comparisonList));
-    },
 
-    clearComparison() {
-      this.comparisonList = [];
-      localStorage.setItem('comparisonList', JSON.stringify(this.comparisonList));
-    },
+      this.setNotification('Product added to comparison list.');
+    } else if (this.comparisonList.length >= 5) {
+      this.setNotification('Comparison list is full. Please remove a product to add a new one.');
+    }
+  },
 
-    // Wishlist Management
+  removeFromComparison(product) {
+    this.comparisonList = this.comparisonList.filter(item => item.id !== product.id);
+    localStorage.setItem('comparisonList', JSON.stringify(this.comparisonList));
+
+    this.setNotification('Product removed from comparison list.');
+  },
+
+  clearComparison() {
+    this.comparisonList = [];
+    localStorage.setItem('comparisonList', JSON.stringify(this.comparisonList));
+
+    this.setNotification('Comparison list cleared.');
+  },
+
+  // Wishlist Management
     addToWishlist(product) {
       if (!this.wishlist.some(item => item.id === product.id)) {
         this.wishlist.push(product);
         localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+
+        this.setNotification('Product added to wishlist.');
       }
     },
 
     removeFromWishlist(product) {
       this.wishlist = this.wishlist.filter(item => item.id !== product.id);
       localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+
+      this.setNotification('Product removed from wishlist.');
     },
 
     clearWishlist() {
       this.wishlist = [];
       localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
+
+      this.setNotification('Wishlist cleared.');
     },
 
     getWishlist() {
