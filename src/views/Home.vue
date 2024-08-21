@@ -9,8 +9,6 @@ const selectedCategory = ref("");
 const selectedSort = ref("");
 const store = useStore();
 
-const currentIndex = ref(0);
-
 // Fetch products and categories on component mount
 onMounted(async () => {
   const response = await fetch(`https://fakestoreapi.com/products`);
@@ -25,7 +23,7 @@ onMounted(async () => {
 
 // Filter and sort products
 const filteredAndSortedProducts = computed(() => {
-  let filteredProducts = products.value;
+  let filteredProducts = [...products.value]; // Copy array to avoid mutating original
 
   if (selectedCategory.value) {
     filteredProducts = filteredProducts.filter(
@@ -34,16 +32,24 @@ const filteredAndSortedProducts = computed(() => {
   }
 
   if (selectedSort.value === "lowest") {
-    filteredProducts = filteredProducts.sort((a, b) => a.price - b.price);
+    filteredProducts.sort((a, b) => a.price - b.price);
   } else if (selectedSort.value === "highest") {
-    filteredProducts = filteredProducts.sort((a, b) => b.price - a.price);
+    filteredProducts.sort((a, b) => b.price - a.price);
   }
 
   return filteredProducts;
 });
 
+// Reset filter and sort
+const resetFiltersAndSort = () => {
+  selectedCategory.value = "";
+  selectedSort.value = "";
+};
+
 // Wishlist carousel
 const wishlistItems = computed(() => store.getWishlist());
+
+const currentIndex = ref(0);
 
 const nextItem = () => {
   if (currentIndex.value < wishlistItems.value.length - 1) {
@@ -148,7 +154,6 @@ const prevItem = () => {
           <select
             id="category"
             v-model="selectedCategory"
-            @change="filterProducts"
             class="p-2 border rounded-md"
           >
             <option value="">All Categories</option>
@@ -166,7 +171,6 @@ const prevItem = () => {
           <select
             id="sort"
             v-model="selectedSort"
-            @change="sortProducts"
             class="p-2 border rounded-md"
           >
             <option value="">Default</option>
@@ -174,6 +178,12 @@ const prevItem = () => {
             <option value="highest">Highest to Lowest</option>
           </select>
         </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <button @click="resetFiltersAndSort" class="bg-teal-500 text-white py-2 px-4 rounded-md">
+          Reset Filters and Sort
+        </button>
       </div>
 
       <!-- Product Grid -->
