@@ -14,7 +14,7 @@ onMounted(async () => {
     product.value = data;
   });
 
-function addToCart() {
+const addToCart = () => {
   store.addToCart(product.value);
 }
 </script>
