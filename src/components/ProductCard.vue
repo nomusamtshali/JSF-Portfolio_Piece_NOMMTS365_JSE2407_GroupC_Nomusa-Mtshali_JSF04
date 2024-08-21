@@ -72,7 +72,7 @@ const toggleLike = () => {
   <!-- Product Card -->
   <div
     v-else
-    class="product-card border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out bg-white dark:bg-gray-800 mx-auto"
+    class="product-card border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out bg-white mx-auto"
   >
     <div class="relative mb-4">
       <img
@@ -187,6 +187,6 @@ const toggleLike = () => {
 }
 
 .skeleton-card {
-  height: 24rem; /* Adjust height to match product card height */
+  height: 24rem;
 }
 </style>
