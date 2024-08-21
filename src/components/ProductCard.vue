@@ -81,7 +81,7 @@ const toggleLike = () => {
         class="product-image w-full object-contain p-2"
       />
       <div
-        class="absolute top-2 left-2 bg-white dark:bg-gray-800 bg-opacity-90 rounded-full p-2 shadow-md cursor-pointer"
+        class="absolute top-2 left-2 bg-white bg-opacity-90 rounded-full p-2 shadow-md cursor-pointer"
         @click="toggleLike"
       >
         <svg
@@ -118,16 +118,16 @@ const toggleLike = () => {
       <div
         class="absolute top-2 right-2 bg-white bg-opacity-90 rounded-full px-3 py-1 shadow-md"
       >
-        <p class="text-sm text-gray-800 dark:text-gray-200 font-semibold">
+        <p class="text-sm text-gray-800 font-semibold">
           ${{ product.price }}
         </p>
       </div>
     </div>
     <div class="px-4 pb-4">
-      <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+      <h2 class="text-lg font-semibold text-gray-800 mb-2">
         {{ product.title }}
       </h2>
-      <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+      <p class="text-sm text-gray-500 mb-2">
         {{ product.category }}
       </p>
       <div class="flex items-center mb-2">
@@ -140,29 +140,29 @@ const toggleLike = () => {
         <span
           v-for="n in 5 - Math.round(product.rating.rate)"
           :key="`empty-${n}`"
-          class="text-gray-300 dark:text-gray-600"
+          class="text-gray-300"
           >★</span
         >
-        <span class="ml-2 text-sm text-gray-500 dark:text-gray-400"
+        <span class="ml-2 text-sm text-gray-500"
           >({{ product.rating.count }} reviews)</span
         >
       </div>
       <router-link
         :to="`/product/${product.id}`"
-        class="block text-center text-white dark:text-gray-900 bg-teal-500 dark:bg-teal-300 hover:bg-teal-600 dark:hover:bg-teal-400 font-semibold rounded-md py-2 mb-2 transition-colors duration-200 ease-in-out"
+        class="block text-center text-white bg-teal-500 dark:bg-teal-300 hover:bg-teal-600 dark:hover:bg-teal-400 font-semibold rounded-md py-2 mb-2 transition-colors duration-200 ease-in-out"
       >
         View Details
       </router-link>
       <div class="flex justify-between space-x-2">
         <button
           @click="addToCart"
-          class="w-full bg-orange-500 text-white dark:text-gray-900 py-2 rounded-md hover:bg-orange-600 dark:hover:bg-orange-400 transition-all duration-200 ease-in-out font-semibold"
+          class="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 dark:hover:bg-orange-400 transition-all duration-200 ease-in-out font-semibold"
         >
           Add to Cart
         </button>
         <button
           @click="addToComparison"
-          class="w-full bg-orange-500 text-white dark:text-gray-900 py-2 rounded-md hover:bg-orange-600 dark:hover:bg-orange-400 transition-all duration-200 ease-in-out font-semibold"
+          class="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 dark:hover:bg-orange-400 transition-all duration-200 ease-in-out font-semibold"
         >
           Compare
         </button>
