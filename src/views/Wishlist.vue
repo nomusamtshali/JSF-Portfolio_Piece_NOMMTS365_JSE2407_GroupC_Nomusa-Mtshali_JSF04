@@ -20,10 +20,12 @@ const categories = computed(() => [...new Set(wishlistItems.value.map(item => it
 const filteredAndSortedWishlist = computed(() => {
   let items = wishlistItems.value;
 
+  // Filter by category
   if (filterCategory.value) {
     items = items.filter(item => item.category === filterCategory.value);
   }
 
+  // Sort by price
   if (sortOption.value === 'price-asc') {
     items = items.sort((a, b) => a.price - b.price);
   } else if (sortOption.value === 'price-desc') {
@@ -36,17 +38,17 @@ const filteredAndSortedWishlist = computed(() => {
 // Add product to cart
 const addToCart = (product) => {
   store.addToCart(product);
-}
+};
 
 // Remove product from wishlist
 const removeFromWishlist = (product) => {
   store.removeFromWishlist(product);
-}
+};
 
 // Clear wishlist
 const clearWishlist = () => {
   store.clearWishlist();
-}
+};
 
 // Redirect to login if not authenticated
 onMounted(() => {
@@ -64,18 +66,24 @@ onMounted(() => {
     <h1 class="text-2xl font-bold mb-4">My Wishlist:</h1>
 
     <!-- Filters and Sort Options -->
-    <div class="mb-6 flex space-x-4">
-      <select v-model="filterCategory" class="p-2 border rounded-md">
-        <option value="">All Categories</option>
-        <option v-for="category in categories" :key="category" :value="category">
-          {{ category }}
-        </option>
-      </select>
-      <select v-model="sortOption" class="p-2 border rounded-md">
-        <option value="">Default</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-      </select>
+    <div class="mb-6 flex space-x-6"> <!-- Adjusted spacing between filter and sort -->
+      <div>
+        <label for="filter" class="font-semibold">Filter by Category:</label>
+        <select v-model="filterCategory" id="filter" class="ml-2 p-2 border rounded-md">
+          <option value="">All Categories</option>
+          <option v-for="category in categories" :key="category" :value="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <label for="sort" class="font-semibold">Sort by Price:</label>
+        <select v-model="sortOption" id="sort" class="ml-2 p-2 border rounded-md">
+          <option value="">Default</option>
+          <option value="price-asc">Lowest to Highest</option>
+          <option value="price-desc">Highest to Lowest</option>
+        </select>
+      </div>
     </div>
 
     <!-- Wishlist Items -->
