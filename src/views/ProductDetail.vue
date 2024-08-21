@@ -30,9 +30,11 @@ function addToCart() {
       class="h-80 object-cover mb-4"
     />
     <h1 class="text-3xl font-bold mb-4">{{ product.title }}</h1>
-    <p class="text-xl text-gray-600 mb-2">{{ product.category }}</p>
+    <p class="text-xl text-gray-800 mb-2">Category: {{ product.category }}</p>
+    <p class="text-xl text-gray-600 mb-2">Rated: {{ product.rating.rate }} ☆</p>
+    <p class="text-xl text-gray-600 mb-2">Reviews: {{ product.rating.count }}</p>
     <p class="text-2xl font-bold text-teal-500 mb-4">${{ product.price }}</p>
-    <p class="text-sm text-gray-600 mb-4">{{ product.description }}</p>
+    <p class="text-md text-gray-800 mb-4">{{ product.description }}</p>
     <button
       @click="addToCart"
       class="bg-teal-500 text-white py-2 px-4 rounded-md"
