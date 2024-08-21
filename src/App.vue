@@ -12,7 +12,7 @@ const cartItemCount = computed(() => {
 </script>
 
 <template>
-  <div :class="themeClass">
+  <div>
     <Navbar :cartItemCount="cartItemCount"/> 
     <main class="container mx-auto py-6">
       <Notification />

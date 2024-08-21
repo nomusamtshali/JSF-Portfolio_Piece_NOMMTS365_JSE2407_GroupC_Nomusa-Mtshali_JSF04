@@ -75,7 +75,6 @@ export const useStore = defineStore('main', {
           router.push('/');
         }
       } catch (error) {
-        console.error('Error logging in:', error);
         throw new Error('Login failed');
       }
     },
