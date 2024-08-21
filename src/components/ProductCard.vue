@@ -55,7 +55,7 @@ const toggleLike = () => {
   <!-- Skeleton Loader -->
   <div
     v-if="loading"
-    class="product-card skeleton-card border rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 mx-auto animate-pulse"
+    class="product-card skeleton-card border rounded-lg shadow-md bg-gray-200 mx-auto animate-pulse"
   >
     <div class="relative mb-4 w-full h-48 bg-gray-300 dark:bg-gray-600"></div>
     <div class="px-4 pb-4">
