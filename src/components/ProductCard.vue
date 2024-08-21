@@ -4,15 +4,33 @@ import { ref, onMounted } from "vue";
 
 const props = defineProps({
   product: Object,
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const store = useStore();
 const liked = ref(false);
+const loading = ref(true);
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://fakestoreapi.com/products');
+    const data = await response.json();
+    products.value = data;
+  } catch (error) {
+  } finally {
+    loading.value = false; // sets loading to false once data is fetched
+  }
+});
 
 onMounted(() => {
-  liked.value = store
-    .getWishlist()
-    .some((item) => item.id === props.product.id);
+  if (!props.loading && props.product) {
+    liked.value = store
+      .getWishlist()
+      .some((item) => item.id === props.product.id);
+  }
 });
 
 const addToCart = () => {
@@ -34,7 +52,26 @@ const toggleLike = () => {
 </script>
 
 <template>
+  <!-- Skeleton Loader -->
   <div
+    v-if="loading"
+    class="product-card skeleton-card border rounded-lg shadow-md bg-gray-200 dark:bg-gray-700 mx-auto animate-pulse"
+  >
+    <div class="relative mb-4 w-full h-48 bg-gray-300 dark:bg-gray-600"></div>
+    <div class="px-4 pb-4">
+      <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded w-3/4 mb-2"></div>
+      <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2 mb-2"></div>
+      <div class="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/4 mb-2"></div>
+      <div class="mt-4 space-y-2">
+        <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded"></div>
+        <div class="h-10 bg-gray-300 dark:bg-gray-600 rounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Card -->
+  <div
+    v-else
     class="product-card border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out bg-white dark:bg-gray-800 mx-auto"
   >
     <div class="relative mb-4">
@@ -147,5 +184,9 @@ const toggleLike = () => {
 .product-image {
   height: 12rem;
   border-bottom: 1px solid #e5e7eb;
+}
+
+.skeleton-card {
+  height: 24rem; /* Adjust height to match product card height */
 }
 </style>
