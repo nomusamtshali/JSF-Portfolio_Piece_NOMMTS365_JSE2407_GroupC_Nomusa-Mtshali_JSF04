@@ -21,14 +21,15 @@ const handleLogin = async () => {
   loading.value = true;
   errorMessage.value = "";
 
-  try {
-    await store.login(username.value, password.value);
-    router.push("/");
-  } catch (error) {
+  const success = await store.login(username.value, password.value);
+  
+  if (success) {
+    router.push("/");  // Redirect to home page
+  } else {
     errorMessage.value = "Login failed. Please check your credentials.";
-  } finally {
-    loading.value = false;
   }
+
+  loading.value = false;
 };
 
 const togglePasswordVisibility = () => {
@@ -38,8 +39,8 @@ const togglePasswordVisibility = () => {
 
 <template>
   <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
-      Back
-    </button>
+    Back
+  </button>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">
     <h1 class="text-2xl font-bold mb-6">Login</h1>
     <form @submit.prevent="handleLogin">
