@@ -1,6 +1,19 @@
 import { defineStore } from "pinia";
 import { jwtDecode } from "jwt-decode";
 
+/**
+ * Main store for the application
+ * @typedef {Object} MainStore
+ * @property {Array} products - List of products
+ * @property {Array} categories - List of categories
+ * @property {Array} cart - Items in the shopping cart
+ * @property {Array} comparisonList - Items in the comparison list
+ * @property {Array} wishlist - Items in the wishlist
+ * @property {string} jwt - JSON Web Token for authentication
+ * @property {Object} user - User information
+ * @property {string} notificationMessage - Current notification message
+ */
+
 export const useStore = defineStore("main", {
   state: () => ({
     products: [],
@@ -13,15 +26,20 @@ export const useStore = defineStore("main", {
     notificationMessage: "", // state for notifications
   }),
   actions: {
-    // set a notification message
+    /**
+     * Set a notification message
+     * @param {string} message - The message to display
+     */
     setNotification(message) {
       this.notificationMessage = message;
       setTimeout(() => {
         this.notificationMessage = "";
-      }, 1000); // clear notification after 3 seconds
+      }, 1000); // clear notification after 1 seconds
     },
 
-    // Fetch Products
+    /**
+    * Fetch products from the API
+    */
     async fetchProducts() {
       try {
         const response = await fetch(`https://fakestoreapi.com/products`);
@@ -35,7 +53,9 @@ export const useStore = defineStore("main", {
       }
     },
 
-    // Fetch Categories
+     /**
+     * Fetch categories from the API
+     */
     async fetchCategories() {
       try {
         const response = await fetch(
@@ -51,7 +71,12 @@ export const useStore = defineStore("main", {
       }
     },
 
-    // User login
+    /**
+     * Login user
+     * @param {string} username - User's username
+     * @param {string} password - User's password
+     * @returns {boolean} - Indicates if login was successful
+     */
     async login(username, password) {
       try {
         const response = await fetch(`https://fakestoreapi.com/auth/login`, {
@@ -80,7 +105,11 @@ export const useStore = defineStore("main", {
       }
     },
 
+    /**
+     * Logout user
+     */
     logout() {
+      // clear user data and local storage
       this.jwt = "";
       this.user = {};
       localStorage.removeItem("jwt");
@@ -94,7 +123,10 @@ export const useStore = defineStore("main", {
       this.setNotification("You have logged out successfully.");
     },
 
-    // Cart Management
+    /**
+     * Add a product to the cart
+     * @param {Object} product - The product to add
+     */
     addToCart(product) {
       const item = this.cart.find((item) => item.product.id === product.id);
       if (item) {
@@ -107,6 +139,10 @@ export const useStore = defineStore("main", {
       this.setNotification("Product added to cart.");
     },
 
+    /**
+     * Remove a product from the cart
+     * @param {Object} product - The product to remove
+     */
     removeFromCart(product) {
       this.cart = this.cart.filter((item) => item.product.id !== product.id);
       localStorage.setItem("cart", JSON.stringify(this.cart));
@@ -114,6 +150,9 @@ export const useStore = defineStore("main", {
       this.setNotification("Product removed from cart.");
     },
 
+    /**
+     * Clear the cart
+     */
     clearCart() {
       this.cart = [];
       localStorage.setItem("cart", JSON.stringify(this.cart));
@@ -121,7 +160,10 @@ export const useStore = defineStore("main", {
       this.setNotification("Cart cleared.");
     },
 
-    // Comparison List Management
+     /**
+     * Add a product to the comparison list
+     * @param {Object} product - The product to add
+     */
     addToComparison(product) {
       if (
         this.comparisonList.length < 5 &&
@@ -141,6 +183,10 @@ export const useStore = defineStore("main", {
       }
     },
 
+     /**
+     * Remove a product from the comparison list
+     * @param {Object} product - The product to remove
+     */
     removeFromComparison(product) {
       this.comparisonList = this.comparisonList.filter(
         (item) => item.id !== product.id
@@ -153,6 +199,9 @@ export const useStore = defineStore("main", {
       this.setNotification("Product removed from comparison list.");
     },
 
+     /**
+     * Clear the comparison list
+     */
     clearComparison() {
       this.comparisonList = [];
       localStorage.setItem(
@@ -163,7 +212,10 @@ export const useStore = defineStore("main", {
       this.setNotification("Comparison list cleared.");
     },
 
-    // Wishlist Management
+     /**
+     * Add a product to the wishlist
+     * @param {Object} product - The product to add
+     */
     addToWishlist(product) {
       if (!this.wishlist.some((item) => item.id === product.id)) {
         this.wishlist.push(product);
@@ -173,6 +225,10 @@ export const useStore = defineStore("main", {
       }
     },
 
+    /**
+     * Remove a product from the wishlist
+     * @param {Object} product - The product to remove
+     */
     removeFromWishlist(product) {
       this.wishlist = this.wishlist.filter((item) => item.id !== product.id);
       localStorage.setItem("wishlist", JSON.stringify(this.wishlist));
@@ -180,6 +236,9 @@ export const useStore = defineStore("main", {
       this.setNotification("Product removed from wishlist.");
     },
 
+    /**
+     * Clear the wishlist
+     */
     clearWishlist() {
       this.wishlist = [];
       localStorage.setItem("wishlist", JSON.stringify(this.wishlist));
@@ -187,6 +246,10 @@ export const useStore = defineStore("main", {
       this.setNotification("Wishlist cleared.");
     },
 
+    /**
+     * Get the current wishlist
+     * @returns {Array} - The current wishlist
+     */
     getWishlist() {
       return this.wishlist;
     },

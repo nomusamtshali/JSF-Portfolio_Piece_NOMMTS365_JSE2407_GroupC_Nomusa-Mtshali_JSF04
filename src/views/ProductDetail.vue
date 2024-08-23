@@ -3,9 +3,26 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "../store";
 
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
+
+/**
+ * Vue Router route instance
+ * @type {import('vue-router').RouteLocationNormalizedLoaded}
+ */
 const route = useRoute();
+
+/**
+ * @type {import('vue').Ref<Object|null>}
+ */
 const product = ref(null);
+
+/**
+ * @type {import('vue').Ref<boolean>}
+ */
 const loading = ref(true);
 
 onMounted(async () => {
@@ -21,6 +38,9 @@ onMounted(async () => {
   }
 });
 
+/**
+ * Adds the current product to the cart
+ */
 const addToCart = () => {
   store.addToCart(product.value);
 }
@@ -28,7 +48,7 @@ const addToCart = () => {
 
 <template>
   <div class="container mx-auto py-6">
-    <button @click="$router.go(-1)" class="bg-orange-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+    <button @click="$router.go(-1)" class="bg-orange-500 text-white rounded-md py-2 px-4 mb-4">
       Back
     </button>
 
@@ -52,7 +72,7 @@ const addToCart = () => {
         class="w-full md:w-1/2 h-80 object-contain rounded-md shadow-lg"
       />
       <div class="flex-1">
-        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-200 mb-4">
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">
           {{ product.title }}
         </h1>
         <p class="text-lg text-teal-500 font-semibold mb-2">

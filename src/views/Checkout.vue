@@ -2,7 +2,16 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "../store";
 
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
+
+/**
+ * Total cost of items in the cart
+ * @type {import('vue').Ref<number>}
+ */
 const totalCost = ref(
   store.cart.reduce(
     (total, item) => total + item.product.price * item.quantity,

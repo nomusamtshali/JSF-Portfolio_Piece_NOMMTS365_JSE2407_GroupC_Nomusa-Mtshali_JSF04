@@ -2,6 +2,15 @@
 import { useStore } from "../store";
 import { ref, onMounted } from "vue";
 
+/**
+ * @typedef {Object} Props
+ * @property {Object} product - The product object
+ * @property {boolean} [loading=false] - Indicates if the product is loading
+ */
+
+/**
+ * @type {Props}
+ */
 const props = defineProps({
   product: Object,
   loading: {
@@ -11,7 +20,11 @@ const props = defineProps({
 });
 
 const store = useStore();
+
+/** @type {import('vue').Ref<boolean>} */
 const liked = ref(false);
+
+/** @type {import('vue').Ref<boolean>} */
 const loading = ref(true);
 
 onMounted(async () => {
@@ -33,14 +46,23 @@ onMounted(() => {
   }
 });
 
+/**
+ * Adds the product to the cart
+ */
 const addToCart = () => {
   store.addToCart(props.product);
 };
 
+/**
+ * Adds the product to the comparison list
+ */
 const addToComparison = () => {
   store.addToComparison(props.product);
 };
 
+/**
+ * Toggles the like status of the product and updates the wishlist
+ */
 const toggleLike = () => {
   liked.value = !liked.value;
   if (liked.value) {

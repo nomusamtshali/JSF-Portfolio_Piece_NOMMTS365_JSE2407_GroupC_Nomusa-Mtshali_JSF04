@@ -3,15 +3,46 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 
+/**
+ * @type {import('vue').Ref<string>}
+ */
 const username = ref("");
+
+/**
+ * @type {import('vue').Ref<string>}
+ */
 const password = ref("");
+
+/**
+ * @type {import('vue').Ref<boolean>}
+ */
 const loading = ref(false);
+
+/**
+ * @type {import('vue').Ref<string>}
+ */
 const errorMessage = ref("");
+
+/**
+ * @type {import('vue').Ref<boolean>}
+ */
 const passwordVisible = ref(false);
 
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
+
+/**
+ * Vue Router instance
+ * @type {import('vue-router').Router}
+ */
 const router = useRouter();
 
+/**
+ * Handles the login process
+ */
 const handleLogin = async () => {
   if (!username.value || !password.value) {
     errorMessage.value = "Username and password are required.";
@@ -32,13 +63,16 @@ const handleLogin = async () => {
   loading.value = false;
 };
 
+/**
+ * Toggles password visibility
+ */
 const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
 };
 </script>
 
 <template>
-  <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+  <button @click="$router.go(-1)" class="bg-teal-500 text-white rounded-md py-2 px-4 mb-4">
     Back
   </button>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white rounded-md shadow-md">

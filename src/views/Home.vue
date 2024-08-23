@@ -3,13 +3,35 @@ import { ref, computed, onMounted } from "vue";
 import ProductCard from "../components/ProductCard.vue";
 import { useStore } from "../store";
 
+/**
+ * @type {import('vue').Ref<Array>}
+ */
 const products = ref([]);
+
+/**
+ * @type {import('vue').Ref<Array>}
+ */
 const categories = ref([]);
+
+/**
+ * @type {import('vue').Ref<string>}
+ */
 const selectedCategory = ref("");
+
+/**
+ * @type {import('vue').Ref<string>}
+ */
 const selectedSort = ref("");
+
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
 
-// Fetch products and categories on component mount
+/**
+ * Fetches products and categories on component mount
+ */
 onMounted(async () => {
   const response = await fetch(`https://fakestoreapi.com/products`);
   const data = await response.json();
@@ -21,7 +43,10 @@ onMounted(async () => {
   ];
 });
 
-// Filter and sort products
+/**
+ * Computed property for filtered and sorted products
+ * @type {import('vue').ComputedRef<Array>}
+ */
 const filteredAndSortedProducts = computed(() => {
   let filteredProducts = [...products.value]; // Copy array to avoid mutating original
 
@@ -40,23 +65,37 @@ const filteredAndSortedProducts = computed(() => {
   return filteredProducts;
 });
 
-// Reset filter and sort
+/**
+ * Resets filter and sort selections
+ */
 const resetFiltersAndSort = () => {
   selectedCategory.value = "";
   selectedSort.value = "";
 };
 
-// Wishlist carousel
+/**
+ * Computed property for wishlist items
+ * @type {import('vue').ComputedRef<Array>}
+ */
 const wishlistItems = computed(() => store.getWishlist());
 
+/**
+ * @type {import('vue').Ref<number>}
+ */
 const currentIndex = ref(0);
 
+/**
+ * Moves to the next item in the wishlist carousel
+ */
 const nextItem = () => {
   if (currentIndex.value < wishlistItems.value.length - 1) {
     currentIndex.value++;
   }
 };
 
+/**
+ * Moves to the previous item in the wishlist carousel
+ */
 const prevItem = () => {
   if (currentIndex.value > 0) {
     currentIndex.value--;
@@ -74,7 +113,7 @@ const prevItem = () => {
         <button
           @click="prevItem"
           :disabled="currentIndex === 0"
-          class="p-2 text-gray-800 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-500 disabled:opacity-50"
+          class="p-2 text-gray-800 hover:text-gray-500 disabled:opacity-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +133,7 @@ const prevItem = () => {
 
         <!-- Carousel Item -->
         <div
-          class="product-card border rounded-lg shadow-md bg-white dark:bg-gray-800 mx-4"
+          class="product-card border rounded-lg shadow-md bg-white mx-4"
           style="width: 15rem"
         >
           <img
@@ -104,7 +143,7 @@ const prevItem = () => {
           />
           <div class="px-4 pb-4">
             <h2
-              class="text-md font-semibold text-gray-800 dark:text-gray-200 mb-2 truncate"
+              class="text-md font-semibold text-gray-800  mb-2 truncate"
             >
               {{ wishlistItems[currentIndex].title }}
             </h2>
@@ -113,7 +152,7 @@ const prevItem = () => {
             </p>
             <router-link
               :to="`/product/${wishlistItems[currentIndex].id}`"
-              class="block text-center text-white dark:text-gray-900 bg-teal-500 dark:bg-teal-300 hover:bg-teal-600 dark:hover:bg-teal-400 font-semibold rounded-md py-2 mb-2 transition-colors duration-200 ease-in-out"
+              class="block text-center text-white bg-teal-500 dark:bg-teal-300 hover:bg-teal-600 dark:hover:bg-teal-400 font-semibold rounded-md py-2 mb-2 transition-colors duration-200 ease-in-out"
             >
               View Details
             </router-link>
@@ -124,7 +163,7 @@ const prevItem = () => {
         <button
           @click="nextItem"
           :disabled="currentIndex === wishlistItems.length - 1"
-          class="p-2 text-gray-800 dark:text-gray-300 hover:text-gray-500 dark:hover:text-gray-500 disabled:opacity-50"
+          class="p-2 text-gray-800 dark:text-gray-300 hover:text-gray-500  disabled:opacity-50"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

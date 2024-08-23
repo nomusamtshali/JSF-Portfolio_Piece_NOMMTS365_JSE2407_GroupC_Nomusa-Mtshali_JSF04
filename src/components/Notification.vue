@@ -2,7 +2,16 @@
 import { computed } from "vue";
 import { useStore } from "../store";
 
+/**
+ * Store instance
+ * @type {import('../store').default}
+ */
 const store = useStore();
+
+/**
+ * Computed property for notification message
+ * @type {import('vue').ComputedRef<string|null>}
+ */
 const message = computed(() => store.notificationMessage);
 </script>
 

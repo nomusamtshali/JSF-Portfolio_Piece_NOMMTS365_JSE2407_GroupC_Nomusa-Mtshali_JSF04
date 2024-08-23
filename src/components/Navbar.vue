@@ -3,6 +3,14 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "../store";
 
+/**
+ * @typedef {Object} Props
+ * @property {number} cartItemCount - The number of items in the cart
+ */
+
+/**
+ * @type {Props}
+ */
 const props = defineProps({
   cartItemCount: {
     type: Number,
@@ -13,26 +21,50 @@ const props = defineProps({
 const router = useRouter();
 const store = useStore();
 
+/** @type {import('vue').Ref<boolean>} */
 const mobileMenuOpen = ref(false);
+
+/** @type {import('vue').Ref<boolean>} */
 const dropdownOpen = ref(false);
 
+/**
+ * Computed property for link class
+ * @type {import('vue').ComputedRef<string>}
+ */
 const linkClass = computed(
   () =>
     "text-navbar-text-color hover:text-link-color dark:hover:text-link-color-dark flex items-center"
 );
 
+/**
+ * Computed property to check if user is authenticated
+ * @type {import('vue').ComputedRef<boolean>}
+ */
 const isAuthenticated = computed(() => !!store.jwt);
 
+/**
+ * Computed property for wishlist item count
+ * @type {import('vue').ComputedRef<number>}
+ */
 const wishlistItemCount = computed(() => store.wishlist.length);  // added this to track wishlist item count
 
+/**
+ * Toggles the mobile menu
+ */
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value;
 };
 
+/**
+ * Toggles the dropdown menu
+ */
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value;
 };
 
+/**
+ * Logs out the user and redirects to home page
+ */
 const logout = () => {
   store.logout();
   router.push("/");

@@ -3,20 +3,43 @@ import { useStore } from '../store';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
+
+/**
+ * Vue Router route instance
+ * @type {import('vue-router').RouteLocationNormalizedLoaded}
+ */
 const router = useRouter();
 
-// Fetch wishlist items
+/**
+ * Fetch wishlist items from the store.
+ *
+ * @returns {Array} Wishlist items.
+ */
 const wishlistItems = computed(() => store.getWishlist());
 
-// Filter and sort options
+/**
+ * Filter and sort options.
+ */
 const filterCategory = ref('');
 const sortOption = ref('');
 
-// Fetch categories
+/**
+ * Fetch categories from wishlist items.
+ *
+ * @returns {Array} Unique categories.
+ */
 const categories = computed(() => [...new Set(wishlistItems.value.map(item => item.category))]);
 
-// Filter and sort wishlist items
+/**
+ * Filter and sort wishlist items.
+ *
+ * @returns {Array} Filtered and sorted wishlist items.
+ */
 const filteredAndSortedWishlist = computed(() => {
   let items = wishlistItems.value;
 
@@ -35,22 +58,34 @@ const filteredAndSortedWishlist = computed(() => {
   return items;
 });
 
-// Add product to cart
+/**
+ * Add product to cart.
+ *
+ * @param {Object} product - Product to add to cart.
+ */
 const addToCart = (product) => {
   store.addToCart(product);
 };
 
-// Remove product from wishlist
+/**
+ * Remove product from wishlist.
+ *
+ * @param {Object} product - Product to remove from wishlist.
+ */
 const removeFromWishlist = (product) => {
   store.removeFromWishlist(product);
 };
 
-// Clear wishlist
+/**
+ * Clear wishlist.
+ */
 const clearWishlist = () => {
   store.clearWishlist();
 };
 
-// Redirect to login if not authenticated
+/**
+ * Redirect to login if not authenticated.
+ */
 onMounted(() => {
   if (!store.jwt) {
     router.push('/login');

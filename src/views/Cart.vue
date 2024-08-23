@@ -2,10 +2,22 @@
 import { computed } from "vue";
 import { useStore } from "../store";
 
+/**
+ * Store instance from Pinia
+ * @type {import('pinia').Store}
+ */
 const store = useStore();
 
+/**
+ * Computed property for the cart items
+ * @type {import('vue').ComputedRef<Array>}
+ */
 const cart = computed(() => store.cart);
 
+/**
+ * Computed property for the total cost of items in the cart
+ * @type {import('vue').ComputedRef<number>}
+ */
 const totalCost = computed(() => {
   return cart.value.reduce(
     (total, item) => total + item.product.price * item.quantity,
@@ -13,14 +25,25 @@ const totalCost = computed(() => {
   );
 });
 
+/**
+ * Removes a product from the cart
+ * @param {Object} product - The product to remove
+ */
 const removeFromCart = (product) => {
   store.removeFromCart(product);
 };
 
+/**
+ * Clears all items from the cart
+ */
 const clearCart = () => {
   store.clearCart();
 };
 
+/**
+ * Updates the quantity of an item in the cart
+ * @param {Object} item - The cart item to update
+ */
 const updateQuantity = (item) => {
   if (item.quantity < 1) {
     item.quantity = 1;
@@ -30,7 +53,7 @@ const updateQuantity = (item) => {
 </script>
 
 <template>
-  <button @click="$router.go(-1)" class="bg-teal-500 text-white dark:text-gray-900 rounded-md py-2 px-4 mb-4">
+  <button @click="$router.go(-1)" class="bg-teal-500 text-white rounded-md py-2 px-4 mb-4">
       Back
     </button>
   <div class="max-w-3xl mx-auto mt-10">
